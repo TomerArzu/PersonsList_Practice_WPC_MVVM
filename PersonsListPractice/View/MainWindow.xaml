@@ -59,7 +59,6 @@
                  Height="Auto"
                  SelectionMode="Single"
                  Grid.Row="1"
-                 Name="TomerLB"
                  dd:DragDrop.IsDragSource="True"
                  dd:DragDrop.IsDropTarget="True"
                  ItemsSource="{Binding FilteredPersonsList}">
