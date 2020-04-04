@@ -30,13 +30,15 @@
                BasedOn="{StaticResource LastRowBtn}" />
     </Window.Resources>
     <Grid>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <!--TODO: Search option-->
-
+        <Canvas ZIndex="5"
+                x:Name="OverlayCanvas" />
         <GroupBox Header="Find Your Person - Insert ID or name"
                   Margin="4"
                   Width="451">
@@ -62,7 +64,26 @@
                  ItemsSource="{Binding FilteredPersonsList}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <person:PersonView />
+                    <Border BorderBrush="CornflowerBlue"
+                            x:Name="ItemBorder"
+                            Height="40"
+                            Width="460">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="BorderThickness"
+                                        Value="1" />
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver"
+                                             Value="True">
+                                        <Setter Property="BorderThickness"
+                                                Value="3" />
+                                    </Trigger>
+
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <person:PersonView />
+                    </Border>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

@@ -4,7 +4,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
-
 namespace PersonsListPractice.ViewModel
 {
     public class MainWindowVM : ViewModelBase
