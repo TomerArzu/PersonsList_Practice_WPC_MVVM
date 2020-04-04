@@ -1,0 +1,106 @@
+﻿<Window x:Class="PersonsListPractice.View.NewPersonWin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PersonsListPractice.View"
+        xmlns:converter="clr-namespace:PersonsListPractice.ViewModel"
+        mc:Ignorable="d"
+        Title="NewPersonWin"
+        Height="450"
+        Width="450">
+    <Window.Resources>
+        <converter:PersonConverter x:Key="PersonMultiConv" />
+        <converter:IdExistConverter x:Key="idConverter" />
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0"
+               VerticalAlignment="Center"
+               HorizontalAlignment="Center"
+               Foreground="BlueViolet"
+               FontStyle="Oblique"
+               FontSize="20"
+               Content="Add New Person" />
+        <Label Grid.Row="1"
+               VerticalAlignment="Bottom"
+               HorizontalAlignment="Center"
+               Margin="-200 3 5 10"
+               Content="Person ID:" />
+        <Rectangle Stroke="Red"
+                   StrokeThickness="4"
+                   Grid.Row="1"
+                   Width="200"
+                   Height="50"
+                   VerticalAlignment="Bottom"
+                   Margin="0 0 75 0">
+            <Rectangle.Visibility>
+                <Binding Path="PersonId"
+                         Converter="{StaticResource idConverter}" />
+            </Rectangle.Visibility>
+        </Rectangle>
+        <TextBox Name="PerID"
+                 Height="25"
+                 Margin="10"
+                 Text="{Binding Path=PersonId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 VerticalAlignment="Bottom"
+                 HorizontalAlignment="Center"
+                 Width="100"
+                 Grid.Row="1">
+            <!--<TextBox.BorderBrush>
+                <Binding Path="PersonId"
+                         Converter="{StaticResource idConverter}" />
+            </TextBox.BorderBrush>-->
+        </TextBox>
+
+        <Label Grid.Row="2"
+               VerticalAlignment="Top"
+               HorizontalAlignment="Center"
+               Margin="-200 10 5 5"
+               Content="Person Name:" />
+        <TextBox Name="PerName"
+                 Height="25"
+                 Margin="10"
+                 Text="{Binding Path=PersonName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 VerticalAlignment="Top"
+                 HorizontalAlignment="Center"
+                 Width="100"
+                 Grid.Row="2" />
+
+        <!--<TextBox>
+            <TextBox.Text>
+                <MultiBinding Converter="{StaticResource PersonMultiConv}">
+                    <Binding ElementName="PerID" Path="PersonId" />
+                    <Binding ElementName="PerName" Path="PersonName" />
+                </MultiBinding>
+            </TextBox.Text>
+        </TextBox>-->
+        <Button Grid.Row="3"
+                Command="{Binding AddPersonCommand}"
+                Content="Add Person"
+                Height="40"
+                Width="70"
+                Margin="0 0 200 0">
+            <Button.IsEnabled>
+                <MultiBinding Converter="{StaticResource PersonMultiConv}">
+                    <Binding Path="PersonId" />
+                    <Binding Path="PersonName" />
+                </MultiBinding>
+            </Button.IsEnabled>
+        </Button>
+        <Button Grid.Row="3"
+                Height="40"
+                Width="70"
+                Content="Cancel"
+                Margin="200 0 0 0"
+                Command="{Binding CloseWin}" />
+    </Grid>
+</Window>
+
+<!--Text="{Binding Path=PersonId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"-->
+<!--Text="{Binding Path=PersonName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"-->

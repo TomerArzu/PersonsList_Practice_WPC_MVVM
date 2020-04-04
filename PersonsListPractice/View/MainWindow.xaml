@@ -1,0 +1,117 @@
+﻿<Window x:Class="PersonsListPractice.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:converter="clr-namespace:PersonsListPractice.ViewModel"
+        xmlns:person="clr-namespace:PersonsListPractice.View"
+        mc:Ignorable="d"
+        Title="Persons List"
+        Height="Auto"
+        Width="500">
+    <Window.Resources>
+        <converter:ToEditConverter x:Key="ToEditConverter" />
+        <converter:IsSelectedPersonConverter x:Key="IsSelectedPersonConverter" />
+        <Style x:Key="LastRowBtn"
+               TargetType="FrameworkElement">
+            <Setter Property="Margin"
+                    Value="20 10" />
+            <Setter Property="Height"
+                    Value="30" />
+            <Setter Property="Width"
+                    Value="50" />
+        </Style>
+        <Style x:Key="LastRowBtn tg"
+               TargetType="ToggleButton"
+               BasedOn="{StaticResource LastRowBtn}" />
+        <Style x:Key="LastRowBtn btn"
+               TargetType="Button"
+               BasedOn="{StaticResource LastRowBtn}" />
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <!--TODO: Search option-->
+
+        <GroupBox Header="Find Your Person - Insert ID or name"
+                  Margin="4"
+                  Width="451">
+            <DockPanel Margin="5">
+                <TextBox Text="{Binding SearchedString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Width="210"
+                         Height="25"
+                         Name="searchBox"
+                         Margin="70 5 0 5"
+                         DockPanel.Dock="Left" />
+                <Button DockPanel.Dock="Right"
+                        Width="70"
+                        Margin="0 5 65 5"
+                        Height="25"
+                        Content="Search" />
+            </DockPanel>
+        </GroupBox>
+
+        <ListBox Margin="5"
+                 Height="Auto"
+                 SelectionMode="Single"
+                 Grid.Row="1"
+                 Name="TomerLB"
+                 ItemsSource="{Binding FilteredPersonsList}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <person:PersonView />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <!--<Popup Width="200" Height="200" DataContext="{Binding NewPersonVM}" IsOpen="{Binding }">
+            <Grid>
+                <Label Content="Ofer" />
+            </Grid>
+        </Popup>-->
+
+        <WrapPanel Grid.Row="2">
+            <WrapPanel.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="Margin"
+                            Value="20 10" />
+                    <Setter Property="Height"
+                            Value="30" />
+                    <Setter Property="Width"
+                            Value="50" />
+                </Style>
+            </WrapPanel.Resources>
+            <Button Command="{Binding AddPersonCommand}"
+                    Content="ADD"
+                    Style="{StaticResource LastRowBtn}" />
+            <ToggleButton Name="EditBtn"
+                          Command="{Binding EditModeCommand}"
+                          Content="Edit"
+                          Style="{StaticResource LastRowBtn tg}" />
+            <Button Command="{Binding DeleteSelectedCommand}"
+                    Content="Delete"
+                    Height="30"
+                    Width="50"
+                    Margin="20 10">
+                <!--IsEnabled="{Binding Path=Persons, Converter={StaticResource IsSelectedPersonConverter}}">-->
+                <Button.Style>
+                    <Style TargetType="Button"
+                           BasedOn="{StaticResource LastRowBtn btn}">
+                        <Setter Property="Visibility"
+                                Value="Hidden" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=EditBtn, Path=IsChecked}"
+                                         Value="True">
+                                <Setter Property="Visibility"
+                                        Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </WrapPanel>
+    </Grid>
+</Window>
+<!--Binding="{Binding ElementName=EditBtn, Path=IsChecked}"-->
