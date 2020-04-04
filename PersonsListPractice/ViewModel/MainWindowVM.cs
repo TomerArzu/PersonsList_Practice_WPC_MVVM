@@ -3,10 +3,13 @@ using PersonsListPractice.View;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using GongSolutions.Wpf.DragDrop;
+using System.Windows;
+using System.Collections;
 
 namespace PersonsListPractice.ViewModel
 {
-    public class MainWindowVM : ViewModelBase
+    public class MainWindowVM : ViewModelBase, IDropTarget
     {
         //Members
 
@@ -175,6 +178,21 @@ namespace PersonsListPractice.ViewModel
                 //filterdPersonsList.Filter = p => ((PersonVM)p).Id.ToString().Contains(SearchedValue) || ((PersonVM)p).Name.ToLower().Contains(SearchedValue.ToLower());
                 FilteredPersonsList = new ObservableCollection<PersonVM>(this.Persons.MyWhere(p => p.Id.ToString().Contains(SearchedValue) || p.Name.ToLower().Contains(SearchedValue.ToLower())));
             //FilteredPersonsList = new ObservableCollection<PersonVM>(this.Persons.Where(p => p.Id.ToString().Contains(SearchedValue) || p.Name.ToLower().Contains(SearchedValue.ToLower())));
+        }
+
+        void IDropTarget.DragOver(IDropInfo dropInfo)
+        {
+            if (dropInfo.Data is PersonVM)
+            {
+                dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
+                dropInfo.Effects = DragDropEffects.All;
+            }
+        }
+
+        void IDropTarget.Drop(IDropInfo dropInfo)
+        {
+            PersonVM msp = (PersonVM)dropInfo.Data;
+            ((IList)dropInfo.DragInfo.SourceCollection).Remove(msp);
         }
     }
 }
