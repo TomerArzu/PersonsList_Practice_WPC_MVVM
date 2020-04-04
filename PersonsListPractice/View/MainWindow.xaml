@@ -6,6 +6,7 @@
         xmlns:converter="clr-namespace:PersonsListPractice.ViewModel"
         xmlns:person="clr-namespace:PersonsListPractice.View"
         mc:Ignorable="d"
+        xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
         Title="Persons List"
         Height="Auto"
         Width="500">
@@ -59,6 +60,8 @@
                  SelectionMode="Single"
                  Grid.Row="1"
                  Name="TomerLB"
+                 dd:DragDrop.IsDragSource="True"
+                 dd:DragDrop.IsDropTarget="True"
                  ItemsSource="{Binding FilteredPersonsList}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
