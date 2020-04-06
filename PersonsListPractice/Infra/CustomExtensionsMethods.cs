@@ -5,6 +5,13 @@ namespace PersonsListPractice.Infra
 {
     public static class CustomExtensionsMethods
     {
+        /// <summary>
+        /// This is extention method
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
         public static IEnumerable<T> MyWhere<T>(this IEnumerable<T> list, Predicate<T> predicate)
         {
             if (list == null)
