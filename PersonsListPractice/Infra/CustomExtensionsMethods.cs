@@ -11,7 +11,7 @@ namespace PersonsListPractice.Infra
         /// <typeparam name="T"></typeparam>
         /// <param name="list"></param>
         /// <param name="predicate"></param>
-        /// <returns></returns>
+        /// <returns>IEnumerable<T></returns>
         public static IEnumerable<T> MyWhere<T>(this IEnumerable<T> list, Predicate<T> predicate)
         {
             if (list == null)
